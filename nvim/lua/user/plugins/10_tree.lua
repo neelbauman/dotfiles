@@ -1,5 +1,5 @@
 -- dotfiles/nvim/lua/user/plugins/10_tree.lua
--- dotfiles/nvim/lua/user/plugins/10_tree.lua
+
 return {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
@@ -19,12 +19,12 @@ return {
       -- Nerd Font がある場合（デフォルト）
       icons = {
         default = "",
-        folder_closed = "",
-        folder_open = "",
-        folder_empty = "",
-        folder_empty_open = "",
-        symlink = "",
-        symlink_target = "",
+        -- folder_closed = "",
+        -- folder_open = "",
+        -- folder_empty = "",
+        -- folder_empty_open = "",
+        -- symlink = "",
+        -- symlink_target = "",
       }
     else
       -- Nerd Font がない場合（フォールバック）

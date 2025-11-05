@@ -3,7 +3,7 @@
 -- リーダーキーを Space に設定
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-vim.g.has_nerd_font = false
+vim.g.have_nerd_font = false
 
 local opt = vim.opt -- 可読性のため
 

@@ -6,7 +6,7 @@ return {
 
     local icons = devicons.get_icons()
 
-    if not vim.g.has_nerd_font then
+    if not vim.g.have_nerd_font then
       -- Nerd Font 無 → フォールバック (□アイコンなど)
       for _, config in pairs(icons) do
         config.icon = "■"
