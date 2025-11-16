@@ -38,4 +38,26 @@ return {
       require("gitsigns").setup()
     end,
   },
+  -- Git
+  {
+    "tpope/vim-fugitive",
+    cmd = {
+        "Git",
+        "G",
+        "Gstatus",
+    "Gblame",
+    "Gdiff",
+    "Gcommit",
+    "Glog",
+    "Gpush",
+    "Gpull",
+    "Gfetch",
+    -- 必要に応じて他のfugitiveコマンドも追加できます
+  },
+  -- 頻繁に使うキーマップをここで設定することもできます
+  -- config = function()
+  --   vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "[G]it [S]tatus" })
+  --   vim.keymap.set("n", "<leader>gc", vim.cmd.Gcommit, { desc = "[G]it [C]ommit" })
+  -- end,
+  },
 }
