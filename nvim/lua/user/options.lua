@@ -34,3 +34,6 @@ opt.linebreak = true      -- (追加) 単語単位で折り返す
 opt.colorcolumn = "80"    -- (追加) 80文字目のガイドライン
 opt.swapfile = false      -- スワップファイルを作成しない
 opt.backup = false        -- バックアップファイルを作成しない
+
+
+

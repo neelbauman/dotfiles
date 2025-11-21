@@ -36,6 +36,12 @@ return {
       }
     end
 
+    local function is_git_workspace()
+        local git_dir = vim.fn.finddir('.git', vin.fn.expand('%p:h') .. ';')
+        return git_dir and #git_dir > 0
+    end
+
+
     local function git_branch_description()
         local branch = vim.fn.system("git rev-parse --abbrev-ref HEAD 2>/dev/null")
 
@@ -80,15 +86,14 @@ return {
         },
         lualine_c = {
           {
+            git_branch_description,
             {
-                git_branch_description,
-                cond = require('lualine.conditions').check_git_workspace
-            },
-            'filename',
-            symbols = {
-              modified = icons.modified,
-              readonly = icons.readonly,
-            }
+                'filename',
+                symbols = {
+                  modified = icons.modified,
+                  readonly = icons.readonly,
+                }
+              }
           }
         },
         lualine_x = {
