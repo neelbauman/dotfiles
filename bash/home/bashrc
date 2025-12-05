@@ -130,15 +130,13 @@ if ! ssh-add -l > /dev/null 2>&1; then
 	ssh-add $HOME/.ssh/id_ed25519
 fi
 
-
 # volta
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
-DOTFILES_DIR="$HOME/projects/dotfiles"
-DOTFILES_REPO="https://github.com/neelbauman/dotfiles.git"
-
-# 2. nvim の設定をリンク
-mkdir -p "$HOME/.config"
-ln -sfn "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
+if [ -f "$HOME/.env" ]; then
+    set -o allexport
+    source "$HOME/.env"
+    set +o allexport
+fi
 
