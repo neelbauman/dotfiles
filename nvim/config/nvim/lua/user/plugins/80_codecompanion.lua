@@ -4,6 +4,7 @@ return {
         "nvim-lua/plenary.nvim",
         "nvim-treesitter/nvim-treesitter",
         "nvim-telescope/telescope.nvim", -- ファイル選択(#file)に使用
+        "ravitemer/codecompanion-history.nvim",
         "echasnovski/mini.diff",
     },
     config = function()
@@ -17,7 +18,20 @@ return {
         })
 
         require("codecompanion").setup({
-            -- 【戦略】すべてOpenAIにお任せ
+            extensions = {
+                history = {
+                    enabled = true,
+                    opts = {
+                        keymap = "gh",
+                        save_chat_keymap = "sc",
+                        auto_save = true,
+                        auto_generate_title = true,
+                        picker = "telescope",
+                        dir_to_save = vim.fn.stdpath('data') .. '/codecompanion-history',
+                    },
+                },
+            },
+
             strategies = {
                 chat = { adapter = "openai" },   -- 思考・相談
                 inline = { adapter = "openai" }, -- 実装・修正
