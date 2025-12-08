@@ -1,0 +1,15 @@
+# ~/.inputrc
+
+# 大文字・小文字を区別せずに補完（File, file どちらもヒット）
+set completion-ignore-case on
+
+# TAB 1回で候補を表示（標準は2回連打が必要）
+#set show-all-if-ambiguous on
+
+# 入力中のコマンドと前方一致で履歴検索（↑↓キーで検索）
+# 例: "do" と打って↑を押すと docker 履歴だけが出る
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# カラー表示を有効化
+set colored-stats on

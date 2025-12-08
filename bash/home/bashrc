@@ -19,9 +19,14 @@ shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=2000
 
+PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
+shopt -s autocd
+shopt -s globstar
+export CDPATH=".:~"
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.

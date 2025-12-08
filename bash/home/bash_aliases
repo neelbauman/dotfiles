@@ -1,7 +1,11 @@
 # alias python="python3 $@"
 # alias emacs="emacs &"
-alias ll="ls -lh --group-directories-first"
-alias lls="ls -lh --group-directories-first"
-alias la="ls -Ah --group-directories-first"
-alias lla="ls -lAh --group-directories-first"
+alias ll="ls --color=auto -lh --group-directories-first"
+alias lls="ls --color=auto -lh --group-directories-first"
+alias la="ls --color=auto -Ah --group-directories-first"
+alias lla="ls --color=auto -lAh --group-directories-first"
+alias grep='grep --color=auto'
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -i'
 alias nv="nvim $@"
