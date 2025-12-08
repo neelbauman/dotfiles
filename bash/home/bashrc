@@ -14,6 +14,7 @@ HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
 shopt -s histappend
+shopt -s cmdhist # 複数行コマンドを履歴では1行にまとめる
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
@@ -24,8 +25,12 @@ PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
-shopt -s autocd
-shopt -s globstar
+shopt -s cdspell # cd のタイプミスを自動認識
+shopt -s autocd # ディレクトリ名だけで移動
+shopt -s dirspell # 保管時のディレクトリスペル修正
+shopt -s nocaseglob # 大文字小文字を無視
+shopt -s globstar # **で再帰的マッチ
+shopt -s extglob # 拡張パターンマッチ（rm !(*.txt)など）
 export CDPATH=".:~"
 
 # If set, the pattern "**" used in a pathname expansion context will
