@@ -34,9 +34,6 @@ return {
     -- Git の変更をガター（行番号の横）に表示
     {
         "lewis6991/gitsigns.nvim",
-        config = function()
-            require("gitsigns").setup()
-        end,
         event = { "BufReadPre", "BufNewFile" },
         opts = {
             current_line_blame = true, -- カーソル行のコミット情報を表示（AI変更箇所の追跡に便利）
@@ -45,8 +42,15 @@ return {
             },
             on_attach = function(bufnr)
                 local gs = package.loaded.gitsigns
-                local function map(mode, l, r, desc)
-                    vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc })
+                local function map(mode, l, r, opts)
+                    opts = opts or {}
+                    -- 文字列なら desc として扱う
+                    if type(opts) == "string" then
+                        opts = { desc = opts }
+                    end
+                    -- バッファ指定を追加
+                    opts.buffer = bufnr
+                    vim.keymap.set(mode, l, r, opts)
                 end
 
                 -- キーバインド: AIの変更箇所をジャンプしたり戻したりする
