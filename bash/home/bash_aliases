@@ -9,3 +9,4 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
 alias nv="nvim $@"
+alias t="dstask"

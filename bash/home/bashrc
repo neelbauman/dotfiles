@@ -126,7 +126,8 @@ fi
 
 
 ##### customize ######
-
+export EDITOR=$(command -v nvim &> /dev/null && echo nvim || echo vim)
+export VISUAL="$EDITOR"
 # PATH
 export PATH="$HOME/.local/bin:$PATH"
 
