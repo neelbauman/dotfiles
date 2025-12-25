@@ -151,3 +151,4 @@ if [ -f "$HOME/.env" ]; then
     set +o allexport
 fi
 
+. "$HOME/.cargo/env"

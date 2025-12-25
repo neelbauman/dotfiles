@@ -88,7 +88,7 @@ return {
                 -- 必要な言語のみインストールして軽量化
                 ensure_installed = { 
                     "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "yaml", -- システム系
-                    "python", "javascript", "typescript", "html", "css", "bash"     -- あなたの開発言語
+                    "python", "javascript", "go", "rust", "typescript", "html", "css", "bash"     -- あなたの開発言語
                 },
                 highlight = {
                     enable = true, -- シンタックスハイライト有効化
