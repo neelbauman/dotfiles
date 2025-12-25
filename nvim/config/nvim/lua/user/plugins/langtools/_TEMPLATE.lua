@@ -1,8 +1,11 @@
 -- nvim/config/nvim/lua/user/plugins/langtools/_TEMPLATE.lua
 -- 【使い方】
--- 1. このファイルをコピーして `04_typescript.lua` などにリネームする
--- 2. 以下のコメントアウト（--[[ ... ]]）を外す
--- 3. "YOUR_SERVER" や "your_lang" を書き換える
+-- 1. これを削除してください
+return {}
+-- 2. 削除後、このファイルをコピーして `04_typescript.lua` などにリネームする
+-- 3. 以下のコメントアウト（--[[ ... ]]）を外す
+-- 4. "YOUR_SERVER" や "your_lang" を書き換える
+
 
 --[[
 -- 1. 自動設定の無効化（自己申告）
