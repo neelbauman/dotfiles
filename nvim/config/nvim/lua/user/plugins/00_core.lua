@@ -10,19 +10,6 @@ return {
         end,
     },
 
-    -- ステータスライン
-    {
-        "nvim-lualine/lualine.nvim",
-        dependencies = { "nvim-tree/nvim-web-devicons" }, -- アイコンも入れる
-        config = function()
-            require("lualine").setup({
-                options = {
-                    theme = "tokyonight",
-                },
-            })
-        end,
-    },
-
     -- どのキーに何が割り当てられているか表示
     {
         "folke/which-key.nvim",
