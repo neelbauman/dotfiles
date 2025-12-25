@@ -22,4 +22,7 @@ require("user.keymaps")
 
 -- 3. lazy.nvim をセットアップし、プラグイン設定を読み込む
 -- "user.plugins" は "dotfiles/nvim/lua/user/plugins/" ディレクトリを指します
-require("lazy").setup("user.plugins")
+require("lazy").setup({
+    { import = "user.plugins" },
+    { import = "user.plugins.langtools" },
+})
