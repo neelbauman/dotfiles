@@ -9,7 +9,6 @@ return {
             vim.cmd.colorscheme("tokyonight-storm") -- 'storm' テーマを適用
         end,
     },
-
     -- どのキーに何が割り当てられているか表示
     {
         "folke/which-key.nvim",
