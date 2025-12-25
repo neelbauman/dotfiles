@@ -48,4 +48,15 @@ return {
             })
         end,
     },
+    -- lspがメモリを占有しすぎないように解放する設定
+    {
+        "zeioth/garbage-day.nvim",
+        dependencies = "neovim/nvim-lspconfig",
+        event = "VeryLazy",
+        opts = {
+            grace_period = 60 * 5, -- 5分 (300秒) 放置でLSP停止
+            wakeup_delay = 0,      -- 再開時の遅延なし
+            notifications = false, -- 通知を出さない（静かに仕事をする）
+        },
+    },
 }
