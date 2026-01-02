@@ -1,5 +1,4 @@
--- dotfiles/nvim/lua/user/plugins/41_toggleterm.lua
--- dotfiles/nvim/lua/user/plugins/50_toggleterm.lua
+-- dotfiles/nvim/config/nvim/lua/user/plugins/41_toggleterm.lua
 
 return {
   "akinsho/toggleterm.nvim",

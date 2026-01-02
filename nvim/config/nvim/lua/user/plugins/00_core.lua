@@ -1,4 +1,4 @@
--- dotfiles/nvim/lua/user/plugins/00_core.lua
+-- dotfiles/nvim/config/nvim/lua/user/plugins/00_core.lua
 
 return {
     -- カラースキーム

@@ -1,3 +1,5 @@
+-- nvim/config/nvim/lua/user/plugins/01_devicons.lua
+
 return {
   "nvim-tree/nvim-web-devicons",
 

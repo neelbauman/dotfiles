@@ -1,4 +1,4 @@
--- dotfiles/nvim/lua/user/plugins/30_completion.lua
+-- dotfiles/nvim/config/nvim/lua/user/plugins/30_completion.lua
 
 return {
   -- 補完エンジン

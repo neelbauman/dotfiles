@@ -1,5 +1,5 @@
--- dotfiles/nvim/lua/user/plugins/50_comment.lua
---
+-- dotfiles/nvim/config/nvim/lua/user/plugins/50_comment.lua
+
 return {
   'numToStr/Comment.nvim',
   event = "VeryLazy",

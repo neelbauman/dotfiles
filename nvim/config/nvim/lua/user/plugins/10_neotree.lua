@@ -1,4 +1,4 @@
--- dotfiles/nvim/lua/user/plugins/10_tree.lua
+-- dotfiles/nvim/config/nvim/lua/user/plugins/10_tree.lua
 
 return {
   "nvim-neo-tree/neo-tree.nvim",

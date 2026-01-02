@@ -1,4 +1,5 @@
--- nvim/config/nvim/lua/user/plugins/05_git.lua
+-- dotfiles/nvim/config/nvim/lua/user/plugins/05_git.lua
+
 return {
     -- Git の変更をガター（行番号の横）に表示
     {

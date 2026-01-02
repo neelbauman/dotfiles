@@ -1,4 +1,5 @@
--- nvim/config/nvim/lua/user/plugins/100_rust.lua
+-- dotfiles/nvim/config/nvim/lua/user/plugins/langtools/02_rust.lua
+
 require("user.utils.lsp_manage").register_custom_config("rust_analyzer")
 
 return {

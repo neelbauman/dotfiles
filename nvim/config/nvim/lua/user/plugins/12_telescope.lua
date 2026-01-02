@@ -1,4 +1,4 @@
--- dotfiles/nvim/lua/user/plugins/40_telescope.lua
+-- dotfiles/nvim/config/nvim/lua/user/plugins/40_telescope.lua
 
 return {
   "nvim-telescope/telescope.nvim",

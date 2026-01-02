@@ -1,4 +1,5 @@
 -- nvim/config/nvim/lua/user/plugins/02_mason.lua
+
 return {
   {
     "williamboman/mason.nvim",

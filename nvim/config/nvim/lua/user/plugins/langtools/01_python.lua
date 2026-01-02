@@ -1,4 +1,4 @@
--- nvim/config/nvim/lua/user/plugins/langtools/01_python.lua
+-- dotfiles/nvim/config/nvim/lua/user/plugins/langtools/01_python.lua
 
 -- 1. 20_lsp.lua での自動起動をスキップするよう登録
 require("user.utils.lsp_manage").register_custom_config("pyright")

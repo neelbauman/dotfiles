@@ -1,4 +1,4 @@
--- dotfiles/nvim/lua/user/plugins/20_lsp.lua
+-- dotfiles/nvim/config/nvim/lua/user/plugins/20_lsp.lua
 
 return {
     {

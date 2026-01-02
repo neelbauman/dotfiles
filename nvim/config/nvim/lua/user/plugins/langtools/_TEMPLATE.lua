@@ -1,4 +1,5 @@
--- nvim/config/nvim/lua/user/plugins/langtools/_TEMPLATE.lua
+-- dotfiles/nvim/config/nvim/lua/user/plugins/langtools/_TEMPLATE.lua
+
 -- 【使い方】
 -- 1. このファイルをコピーして `04_typescript.lua` などにリネームする
 -- 2. この return {} を削除する

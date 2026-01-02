@@ -1,3 +1,5 @@
+-- dotfiles/nvim/config/nvim/lua/user/plugins/80_codecompanion.lua
+
 return {
     "olimorris/codecompanion.nvim",
     dependencies = {
@@ -16,7 +18,6 @@ return {
             -- Git連携はGitsignsに任せるので、ここでは無効化してメモリ節約
             source = nil, 
         })
-
         require("codecompanion").setup({
             extensions = {
                 history = {
@@ -31,14 +32,41 @@ return {
                     },
                 },
             },
+            opts = {
+                language = "Japanese",
+                system_prompt = function(opts)
+                    return [[
+# Role
+あなたは、高度な知能と幅広い知識を持つ、日本語のAIアシスタントです。
+ユーザーの知的パートナーとして、あらゆる支援をします。
 
+# Guidelines
+1. **言語とトーン**:
+   - 常に自然で流暢な日本語で回答してください。
+   - 丁寧でプロフェッショナル、かつ親しみやすいトーン（です・ます調）を維持してください。
+   - ユーザーの意図を汲み取り、文脈に応じた適切な深さで回答してください。
+
+2. **回答の質とスタイル**:
+   - **論理的思考**: 複雑な質問に対しては、いきなり結論を出さず、ステップバイステップで論理的に考察してください。
+   - **正確性**: 事実に基づいた正確な情報を提供してください。不確実な場合は、正直にその旨を伝えてください。
+   - **客観性**: 主観的な意見を求められた場合は、多角的な視点（メリット・デメリットなど）を提示してください。
+
+3. **フォーマット**:
+   - **Markdownの活用**: 見出し、箇条書き、太字、表などを適切に使用し、視認性の高い構成にしてください。
+   - **コードブロック**: コードやコマンド等は、言語指定付きのコードブロック（```lua など）で囲ってください。
+   - **数式**: 数学的な表現が必要な場合はLaTeX形式を使用してください。
+
+4. **制約事項**:
+   - 倫理的・道徳的に問題のあるコンテンツや、差別的な内容は生成しないでください。
+   - 以前の指示と矛盾しない限り、常にユーザーの指示を最優先してください。
+]]
+                end,
+            },
             strategies = {
                 chat = { adapter = "openai" },   -- 思考・相談
                 inline = { adapter = "openai" }, -- 実装・修正
                 agent = { adapter = "openai" },  -- ツール使用（将来用）
             },
-
-            -- 【アダプター設定】
             adapters = {
                 openai = function()
                     return require("codecompanion.adapters").extend("openai", {
@@ -47,16 +75,33 @@ return {
                         },
                         schema = {
                             model = {
-                                -- 思考と実装のバランスが良い "gpt-4o" をデフォルトに推奨
-                                -- コストを抑えたい場合は "gpt-4o-mini" に変更してください
                                 default = "gpt-4o",
                             },
                         },
                     })
                 end,
             },
-
-            -- 【UI設定】Crostini向けにシンプルに
+            prompt_library = {
+                ["jp"] = {
+                    stragety = "chat",
+                    description = "日本語汎用チャット",
+                    opts = {
+                        index = 5,
+                        is_default = false,
+                        is_slash_cmd = true,
+                        short_name = "jp",
+                        auto_submit = false,
+                        stop_context_insertion = true, -- バッファの内容をコンテキストに含めない 
+                        ignore_system_prompt = true,
+                    },
+                    prompts = {
+                        {
+                            role = "system",
+                            content = system_prompt_jp,
+                        },
+                    },
+                },
+            },
             display = {
                 action_palette = {
                     provider = "telescope", -- コマンドパレット統合
@@ -81,10 +126,15 @@ return {
         -- 使い方: ここで "#" を押すとファイルを選択してコンテキストに含められます
         map({"n", "v"}, "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>", { desc = "AI Chat Toggle" })
 
+        map({"n", "v"}, "<leader>aj", "<cmd>CodeCompanion jp<cr>", { desc = "AI Chat (GeneralJP)"})
+
         -- 2. Inline (実装): 選択範囲をその場で変更、または現在位置に挿入
         map({"n", "v"}, "<leader>ai", "<cmd>CodeCompanion<cr>", { desc = "AI Inline Edit" })
 
         -- 3. Add (コンテキスト追加): 選択範囲をチャットに送る
         map("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { desc = "Add selection to Chat" })
+        
+        -- 4. Action Pallete (プロンプト切り替えなどに便利）
+        map("n", "<leader>ap", "<cmd>CodeCompanionActions<cr>", { desc = "AI Actions Palete" })
     end,
 }

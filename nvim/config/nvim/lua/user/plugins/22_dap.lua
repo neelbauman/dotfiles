@@ -1,4 +1,4 @@
--- nvim/config/nvim/lua/user/plugins/21_dap.lua
+-- dotfiles/nvim/config/nvim/lua/user/plugins/21_dap.lua
 
 return {
   {
