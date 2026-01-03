@@ -109,7 +109,15 @@ return {
         filtered_items = {
           hide_dotfiles = false,
           hide_gitignored = false,
-        }
+        },
+        window = {
+            mappings = {
+                ["a"] = "add",
+                ["A"] = function(state)
+                    require("user.custom.randomfilename").add_random(state, { ext = "" })
+                end,
+            },
+        },
       },
     })
 
