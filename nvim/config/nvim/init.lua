@@ -15,13 +15,15 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- 2. 基本オプションとキーマップを読み込む
--- (dotfiles/nvim/lua/user/options.lua を読み込む)
+-- (dotfiles/nvim/config/nvim/lua/user/options.lua を読み込む)
 require("user.options")
--- (dotfiles/nvim/lua/user/keymaps.lua を読み込む)
+-- (dotfiles/nvim/config/nvim/lua/user/keymaps.lua を読み込む)
 require("user.keymaps")
+-- (dotfiles/nvim/config/nvim/lua/user/filetypes.lua を読み込む)
+require("user.filetypes")
 
 -- 3. lazy.nvim をセットアップし、プラグイン設定を読み込む
--- "user.plugins" は "dotfiles/nvim/lua/user/plugins/" ディレクトリを指します
+-- "user.plugins" は "dotfiles/nvim/config/nvim/lua/user/plugins/" ディレクトリを指します
 require("lazy").setup({
     { import = "user.plugins" },
     { import = "user.plugins.langtools" },
