@@ -1,0 +1,58 @@
+site_name: {{ cookiecutter.project_name }}
+site_url: https://neelbauman.github.io/{{ cookiecutter.project_name }}/
+repo_url: https://github.com/neelbauman/{{ cookiecutter.project_name }}/
+repo_name: neelbauman/{{ cookiecutter.project_name }}
+edit_uri: edit/main/docs/
+
+# テーマ設定: Material for MkDocs
+theme:
+  name: material
+  palette:
+    # ライトモード
+    - scheme: default
+      primary: black
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    # ダークモード（beautyspotの"moon"コンセプトに合わせて）
+    - scheme: slate
+      primary: black
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.expand
+    - content.code.copy
+    - content.code.annotate
+  icon:
+    repo: fontawesome/brands/github
+
+# 拡張機能設定
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences:
+      custom_fences:
+        # Mermaid記法のサポート
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+# プラグイン設定
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_root_heading: true
+            show_source: true
+
+# ナビゲーション構造
+nav:
+  - Home: index.md
