@@ -10,6 +10,7 @@
 - **自動リンク（Convention）:** 規定のディレクトリ構造に従うだけで、自動的に適切な場所にリンクされます。
 - **高度なカスタマイズ:** `.links` ファイルを使用することで、任意の場所へのリンクやワイルドカード展開が可能です。
 - **安全性:** 既存のファイルを上書きする際、自動的にバックアップを作成します。
+- **開発時のプロジェクトテンプレート:** dev/templatesディレクトリに、cookiecutterのプロジェクトテンプレートを容易しています。
 
 ## インストール
 
@@ -17,7 +18,7 @@
 
 ```bash
 # 1. リポジトリをクローン (場所はどこでもOK)
-git clone [https://github.com/YOUR_USERNAME/dotfiles.git](https://github.com/YOUR_USERNAME/dotfiles.git) ~/dotfiles
+git clone https://github.com/neelbauman/dotfiles.git ~/dotfiles
 
 # 2. ディレクトリに移動
 cd ~/dotfiles
