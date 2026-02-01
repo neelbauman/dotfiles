@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# 引数チェック
+if [ -z "$1" ]; then
+    echo "Usage: git cd <new-branch-name>"
+    exit 1
+fi
+
+BRANCH_NAME=$1
+
+# 既存ブランチのチェック（上書き事故防止）
+# 既存ブランチのチェック
+if git show-ref --verify --quiet "refs/heads/$BRANCH_NAME"; then
+    echo "⚠️  Branch '$BRANCH_NAME' already exists."
+    git checkout "$BRANCH_NAME"
+
+    # 現在のDescriptionを取得
+    CURRENT_DESC=$(git config branch."$BRANCH_NAME".description)
+
+    if [ -n "$CURRENT_DESC" ]; then
+        echo "📝 Description: $CURRENT_DESC"
+    else
+        echo "ℹ️  No description set."
+    fi
+
+    # ユーザーへの案内（ここが親切な部分）
+    echo "💡 Run 'git branch --edit-description' to add/edit it."
+    exit 0
+fi
+
+# 一時ファイルの作成
+DESC_FILE=$(mktemp)
+
+# Neovimで開く (設定されていない場合はnvimを直接指定)
+${EDITOR:-nvim} "$DESC_FILE"
+
+# 【重要】中身の検証
+# ファイルが空、または「空白文字のみ」の場合は作成を中止する
+if [ ! -s "$DESC_FILE" ] || ! grep -q '[^[:space:]]' "$DESC_FILE"; then
+    echo "🚫 Description is empty. Branch creation aborted."
+    rm "$DESC_FILE"
+    exit 1 # エラー終了
+fi
+
+# ブランチ作成とswitch
+echo "Creating branch '$BRANCH_NAME'..."
+if git checkout -b "$BRANCH_NAME"; then
+    # Descriptionの設定
+    git config branch."$BRANCH_NAME".description "$(cat "$DESC_FILE")"
+    echo "✅ Description set."
+else
+    echo "❌ Failed to create branch."
+    rm "$DESC_FILE"
+    exit 1
+fi
+
+# 一時ファイルの削除
+rm "$DESC_FILE"
+
