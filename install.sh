@@ -134,5 +134,51 @@ for topic_dir in "$DOTFILES_DIR"/*; do
     fi
 done
 
+# ---------------------------------------------------------
+# 追加機能: Prompty CLI のインストール
+# ---------------------------------------------------------
+install_prompty() {
+    # 既にインストールされているか確認
+    if command -v prompty >/dev/null 2>&1; then
+        echo "prompty is already installed. Skipping."
+        return
+    fi
+
+    echo "Installing prompty..."
+
+    # uvコマンドの確認
+    if ! command -v uv >/dev/null 2>&1; then
+        echo "Error: 'uv' is not installed. Please install uv first."
+        return 1
+    fi
+
+    # クローン先のディレクトリ設定 (標準的なソース置き場として ~/.local/src を使用)
+    local repo_dir="$HOME/.local/src/prompty"
+    local target_package="$repo_dir/runtime/prompty"
+
+    # リポジトリのクローン
+    if [ ! -d "$repo_dir" ]; then
+        echo "Cloning prompty repository to $repo_dir..."
+        mkdir -p "$(dirname "$repo_dir")"
+        git clone https://github.com/neelbauman/prompty.git "$repo_dir"
+    else
+        echo "Prompty repository already exists at $repo_dir. Pulling latest..."
+        git -C "$repo_dir" pull
+    fi
+
+    # uv tool でインストール
+    # Note: typing_versions -> typing_extensions に修正しました
+    echo "Running uv tool install..."
+    uv tool install \
+        --with typing_extensions \
+        --with openai \
+        --python 3.10 \
+        --force \
+        "$target_package"
+}
+
+# メイン処理の最後に追加機能呼び出し
+install_prompty
+
 echo "Setup complete!"
 
