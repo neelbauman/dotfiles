@@ -1,3 +1,5 @@
 .env
 lazy-lock.json
+.runs
+.prompts
 
