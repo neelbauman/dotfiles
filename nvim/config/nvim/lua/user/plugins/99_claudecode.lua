@@ -9,12 +9,12 @@ return {
         cmd = { "ClaudeCode", "ClaudeCodeTask", "ClaudeCodeAdd", "ClaudeCodeSend", "ClaudeCodeTreeAdd" },
         keys = {
             -- ターミナル
-            { "<leader>ac", "<cmd>ClaudeCode<cr>",     desc = "Claude: Open" },
-            { "<leader>at", "<cmd>ClaudeCodeTask<cr>", desc = "Claude: Task" },
+            { "<leader>cc", "<cmd>ClaudeCode<cr>",     desc = "Claude: Open" },
+            { "<leader>ct", "<cmd>ClaudeCodeTask<cr>", desc = "Claude: Task" },
 
             -- コンテキスト送信
             {
-                "<leader>ab",
+                "<leader>cb",
                 function()
                     local ft = vim.bo.filetype
                     if ft == "codecompanion" then
@@ -25,7 +25,7 @@ return {
                 end,
                 desc = "Claude: Add buffer",
             },
-            { "<leader>as", "<cmd>ClaudeCodeSend<cr>",  mode = "v", desc = "Claude: Send selection" },
+            { "<leader>cs", "<cmd>ClaudeCodeSend<cr>",  mode = "v", desc = "Claude: Send selection" },
 
             -- neo-tree
             { "<leader>ca", "<cmd>ClaudeCodeTreeAdd<cr>", ft = "neo-tree", desc = "Claude: Add from tree" },
