@@ -33,16 +33,16 @@ return {
                 },
                 {
                     provider = "anthropic",
-                    name = "ClaudeSonnet4-5",
+                    name = "ClaudeSonnet4-6",
                     chat = true,
                     command = false,
-                    model = { model = "claude-sonnet-4-5-20250929", temperature = 0.5 },
+                    model = { model = "claude-sonnet-4-6", temperature = 0.5 },
                     system_prompt = "あなたはAnthropicによってトレーニングされたAIであるClaudeです。日本語で簡潔に答えてください。",
                 },
             },
 
             -- 3. デフォルトエージェント
-            default_chat_agent = "ClaudeSonnet4-5",
+            default_chat_agent = "ClaudeSonnet4-6",
             default_command_agent = "ChatGPT4o",
 
             -- 4. フック（Telescope統合を追加）
@@ -225,7 +225,7 @@ return {
                 TelescopeProject = function(gp, params)
                     local pickers = require('telescope.pickers')
                     local finders = require('telescope.finders')
-                    local conf = require('telescope.config').values
+                    local tele_conf = require('telescope.config').values
                     local actions = require('telescope.actions')
                     local action_state = require('telescope.actions.state')
                     
@@ -261,7 +261,7 @@ return {
                     pickers.new({}, {
                         prompt_title = "GPT: プロジェクトファイル選択 (Tabで複数選択)",
                         finder = finders.new_table({ results = files }),
-                        sorter = conf.generic_sorter({}),
+                        sorter = tele_conf.generic_sorter({}),
                         attach_mappings = function(prompt_bufnr, map)
                             actions.select_default:replace(function()
                                 local picker = action_state.get_current_picker(prompt_bufnr)

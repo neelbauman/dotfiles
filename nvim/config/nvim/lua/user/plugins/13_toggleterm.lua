@@ -1,4 +1,4 @@
--- dotfiles/nvim/config/nvim/lua/user/plugins/41_toggleterm.lua
+-- dotfiles/nvim/config/nvim/lua/user/plugins/13_toggleterm.lua
 
 return {
     "akinsho/toggleterm.nvim",
@@ -56,14 +56,14 @@ return {
             end,
         })
 
-        function _zenn_preview_toggle()
+        local function _zenn_preview_toggle()
             zenn_preview:toggle()
         end
 
 
         -- 3. キーマップ設定: Space連打
         vim.keymap.set("n", "<leader><leader>", _dstask_toggle, { desc = "Toggle dstask" })
-        vim.keymap.set("n", "<leader>zp", "<cmd>lua _zenn_preview_toggle()<CR>", { desc = "Zenn: Toggle Preview Server" })
+        vim.keymap.set("n", "<leader>zp", _zenn_preview_toggle, { desc = "Zenn: Toggle Preview Server" })
 
 
         -- 【追加】終了時 (:wqa / :qa) の自動クリーンアップ
