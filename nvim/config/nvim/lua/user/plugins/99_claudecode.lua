@@ -6,18 +6,38 @@ return {
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
-        -- lazy.nvimでの読み込み設定
-        cmd = { "ClaudeCode", "ClaudeCodeTask" }, -- コマンド実行時にロード
+        cmd = { "ClaudeCode", "ClaudeCodeTask", "ClaudeCodeAdd", "ClaudeCodeSend", "ClaudeCodeTreeAdd" },
         keys = {
-            { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Open Claude Code" },
-            { "<leader>at", "<cmd>ClaudeCodeTask<cr>", desc = "Start Claude Code Task" },
+            -- ターミナル
+            { "<leader>ac", "<cmd>ClaudeCode<cr>",     desc = "Claude: Open" },
+            { "<leader>at", "<cmd>ClaudeCodeTask<cr>", desc = "Claude: Task" },
+
+            -- コンテキスト送信
+            {
+                "<leader>ab",
+                function()
+                    local ft = vim.bo.filetype
+                    if ft == "codecompanion" then
+                        vim.notify("CodeCompanion バッファは追加できません", vim.log.levels.WARN)
+                        return
+                    end
+                    vim.cmd("ClaudeCodeAdd %")
+                end,
+                desc = "Claude: Add buffer",
+            },
+            { "<leader>as", "<cmd>ClaudeCodeSend<cr>",  mode = "v", desc = "Claude: Send selection" },
+
+            -- neo-tree
+            { "<leader>ca", "<cmd>ClaudeCodeTreeAdd<cr>", ft = "neo-tree", desc = "Claude: Add from tree" },
         },
         opts = {
-            -- 必要に応じて設定をカスタマイズ
-            -- window = {
-            --     position = "right", -- "float" | "right" | "bottom"
-            --     width = 0.4,
-            -- },
+            track_selection = true, -- カーソル位置・選択範囲をリアルタイムで送信
+            diff_opts = {
+                vertical_split = false, -- diff を縦分割で開く
+            },
         },
+        config = function(_, opts)
+            require("claudecode").setup(opts)
+        end,
     }
 }

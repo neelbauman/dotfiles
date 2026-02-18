@@ -42,7 +42,7 @@ return {
                 signs = { add = "+", change = "~", delete = "-" },
             },
             -- Git連携はGitsignsに任せるので、ここでは無効化してメモリ節約
-            source = nil, 
+            source = nil,
         })
         require("codecompanion").setup({
             extensions = {
@@ -54,16 +54,62 @@ return {
                         auto_save = true,
                         auto_generate_title = true,
                         picker = "telescope",
-                        dir_to_save = vim.fn.stdpath('data') .. '/codecompanion-history',
+                        dir_to_save = vim.fn.expand('~/ai-chats'),
                     },
                 },
             },
-            strategies = {
-                chat = { adapter = "openai" },   -- 思考・相談
-                inline = { adapter = "openai" }, -- 実装・修正
-                agent = { adapter = "openai" },  -- ツール使用（将来用）
+            interactions = {
+                chat = {
+                    adapter = "anthropic",
+                    opts = {
+                        system_prompt = function(_ctx)
+                            return system_prompt_jp
+                        end,
+                    },
+                    tools = {
+                        -- 利用可能なツール: @{cmd_runner}, @{read_file}, @{file_search},
+                        -- @{grep_search}, @{create_file}, @{delete_file}, @{fetch_webpage},
+                        -- @{insert_edit_into_file}, @{memory}, @{get_changed_files},
+                        -- @{list_code_usages}, @{web_search}
+                        ["web_search"] = {
+                            -- $TAVILY_API_KEY が未設定の場合は自動で無効化して通知
+                            enabled = function()
+                                local key = vim.env.TAVILY_API_KEY
+                                if not key or key == "" then
+                                    vim.notify(
+                                        "[CodeCompanion] web_search: $TAVILY_API_KEY が未設定です",
+                                        vim.log.levels.WARN
+                                    )
+                                    return false
+                                end
+                                return true
+                            end,
+                            opts = {
+                                adapter = "tavily",
+                                opts = {
+                                    search_depth = "advanced", -- "basic" or "advanced"
+                                    topic = "general",         -- "general" or "news"
+                                    max_results = 5,
+                                },
+                            },
+                        },
+                    },
+                },
+                inline = { adapter = "openai" },
             },
             adapters = {
+                anthropic = function()
+                    return require("codecompanion.adapters").extend("anthropic", {
+                        env = {
+                            api_key = "cmd:echo $ANTHROPIC_API_KEY", -- pragma: allowlist secret
+                        },
+                        schema = {
+                            model = {
+                                default = "claude-sonnet-4-6",
+                            },
+                        },
+                    })
+                end,
                 openai = function()
                     return require("codecompanion.adapters").extend("openai", {
                         env = {
@@ -76,27 +122,13 @@ return {
                         },
                     })
                 end,
-            },
-            prompt_library = {
-                ["jp"] = {
-                    strategy = "chat",
-                    description = "日本語汎用チャット",
-                    opts = {
-                        index = 5,
-                        is_default = false,
-                        is_slash_cmd = true,
-                        short_name = "jp",
-                        auto_submit = false,
-                        stop_context_insertion = true, -- バッファの内容をコンテキストに含めない 
-                        ignore_system_prompt = true,
-                    },
-                    prompts = {
-                        {
-                            role = "system",
-                            content = system_prompt_jp,
+                tavily = function()
+                    return require("codecompanion.adapters").extend("tavily", {
+                        env = {
+                            api_key = "cmd:echo $TAVILY_API_KEY", -- pragma: allowlist secret
                         },
-                    },
-                },
+                    })
+                end,
             },
             display = {
                 action_palette = {
@@ -121,15 +153,14 @@ return {
         -- 1. Chat (思考): 右側にチャットを開く
         -- 使い方: ここで "#" を押すとファイルを選択してコンテキストに含められます
         map({"n", "v"}, "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>", { desc = "AI Chat Toggle" })
-
-        map({"n", "v"}, "<leader>aj", "<cmd>CodeCompanion jp<cr>", { desc = "AI Chat (GeneralJP)"})
+        map({"n", "v"}, "<leader>an", "<cmd>CodeCompanionChat<cr>", { desc = "AI Chat New" })
 
         -- 2. Inline (実装): 選択範囲をその場で変更、または現在位置に挿入
         map({"n", "v"}, "<leader>ai", "<cmd>CodeCompanion<cr>", { desc = "AI Inline Edit" })
 
         -- 3. Add (コンテキスト追加): 選択範囲をチャットに送る
         map("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { desc = "Add selection to Chat" })
-        
+
         -- 4. Action Pallete (プロンプト切り替えなどに便利）
         map("n", "<leader>ap", "<cmd>CodeCompanionActions<cr>", { desc = "AI Actions Palette" })
     end,
