@@ -34,6 +34,8 @@ opt.colorcolumn = "80"    -- 80文字目のガイドライン
 opt.swapfile = false      -- スワップファイルを作成しない
 opt.backup = false        -- バックアップファイルを作成しない
 opt.scrolloff = 999       -- カーソルを中央に置く
+opt.splitright = true
+opt.splitbelow = true
 
 -- 外部でのファイル変更を検知して自動リロード (Claude Code連携用)
 opt.autoread = true
