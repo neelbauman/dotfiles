@@ -137,7 +137,6 @@ return {
                 chat = {
                     window = {
                         layout = "vertical",
-                        position = "right", -- 右側に固定
                         width = 0.35,
                     },
                     show_settings = true, -- 使用中のモデルなどを表示
