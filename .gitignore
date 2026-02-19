@@ -2,4 +2,6 @@
 lazy-lock.json
 .runs
 .prompts
+target/
+bin/
 

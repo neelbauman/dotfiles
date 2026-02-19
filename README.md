@@ -1,30 +1,86 @@
 # Dotfiles
 
 私の個人的な設定ファイル（dotfiles）リポジトリです。
-依存関係のない独自のインストールスクリプト（`install.sh`）を使用して、安全かつ柔軟にシンボリックリンクを管理します。
+Rust製のクロスプラットフォームインストーラーで、安全かつ柔軟にシンボリックリンクを管理します。
 
 ## 特徴
 
-- **依存関係ゼロ:** `git` と `bash` さえあれば動作します（GNU Stowなどは不要）。
-- **トピック指向:** 設定は機能（例: `nvim`, `zsh`, `git`）ごとにディレクトリ分けされています。
+- **クロスプラットフォーム:** Linux / macOS / Windows に対応（Rust製インストーラー）。
+- **トピック指向:** 設定は機能（例: `nvim`, `bash`, `ssh`）ごとにディレクトリ分けされています。
 - **自動リンク（Convention）:** 規定のディレクトリ構造に従うだけで、自動的に適切な場所にリンクされます。
-- **高度なカスタマイズ:** `.links` ファイルを使用することで、任意の場所へのリンクやワイルドカード展開が可能です。
-- **安全性:** 既存のファイルを上書きする際、自動的にバックアップを作成します。
-- **開発時のプロジェクトテンプレート:** dev/templatesディレクトリに、cookiecutterのプロジェクトテンプレートを容易しています。
+- **TOML 設定:** `topic.toml` で任意の場所へのリンクやプラットフォーム制限が可能です。
+- **フック対応:** トピックごとに `install.sh` / `install.ps1` で追加のセットアップ処理を実行できます。
+- **安全性:** 既存のファイルを上書きする際、自動的にバックアップを作成します。冪等性があり、何度実行しても安全です。
+- **Bash フォールバック:** Rust ツールチェインがない環境では従来の Bash スクリプトで動作します。
 
 ## インストール
 
-リポジトリを任意の場所にクローンし、セットアップスクリプトを実行してください。
+### ワンライナー（推奨）
+
+**Linux / macOS:**
 
 ```bash
-# 1. リポジトリをクローン (場所はどこでもOK)
-git clone https://github.com/neelbauman/dotfiles.git ~/dotfiles
+curl -fsSL https://raw.githubusercontent.com/neelbauman/dotfiles/main/install.sh | bash
+```
 
-# 2. ディレクトリに移動
+**Windows (PowerShell):**
+
+```powershell
+irm https://raw.githubusercontent.com/neelbauman/dotfiles/main/install.ps1 | iex
+```
+
+GitHub Releases からプリビルドバイナリを自動ダウンロードし、dotfiles をセットアップします。
+Rust 環境不要で、Linux (x86_64) / macOS (x86_64, ARM) / Windows (x86_64) に対応しています。
+
+### 手動インストール
+
+```bash
+# 1. リポジトリをクローン
+git clone https://github.com/neelbauman/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 
-# 3. インストールスクリプトを実行
+# 2a. cargo run（Rust ツールチェインがある場合）
+cargo run --release
+
+# 2b. または install.sh 経由（バイナリダウンロード → cargo build → Bash の順にフォールバック）
 ./install.sh
+```
+
+### プリビルドバイナリを直接使用
+
+[GitHub Releases](https://github.com/neelbauman/dotfiles/releases) からバイナリをダウンロードし、任意の場所に配置して実行できます。
+
+```bash
+./dotfiles-installer --dotfiles-dir ~/dotfiles
+```
+
+### CLI オプション
+
+```
+dotfiles-installer [OPTIONS]
+
+Options:
+  -n, --dry-run          プレビューモード（実際のリンク作成を行わない）
+  -v, --verbose          詳細出力
+  -t, --topic <NAME>     特定トピックのみインストール（複数指定可）
+      --dotfiles-dir     dotfilesディレクトリ指定
+      --no-hooks         フック実行スキップ
+```
+
+**使用例:**
+
+```bash
+# ドライランで何が起きるか確認
+cargo run -- --dry-run
+
+# 特定のトピックのみインストール
+cargo run -- --topic bash --topic nvim
+
+# フックをスキップしてリンクのみ作成
+cargo run -- --no-hooks
+
+# 詳細出力付きでドライラン
+cargo run -- -n -v
 ```
 
 ## ディレクトリ構造とルール
@@ -34,73 +90,102 @@ cd ~/dotfiles
 
 ### 1\. `config/` ディレクトリ
 
-`~/.config/` 以下に配置されます。ディレクトリ構造はそのまま維持されます。
+`~/.config/` 以下に配置されます（Windows: `%APPDATA%`）。ディレクトリ構造はそのまま維持されます。
 
   - **配置例:** `dotfiles/nvim/config/nvim/init.lua`
-  - **リンク先:** `~/.config/nvim/init.lua`
+  - **リンク先:** `~/.config/nvim` → `dotfiles/nvim/config/nvim`
 
 ### 2\. `home/` ディレクトリ
 
-ホームディレクトリ `~/` 直下に配置されます。
+ホームディレクトリ `~/` 直下に配置されます（Windows: `%USERPROFILE%`）。
 **ファイル名にドット（`.`）が含まれていない場合、リンク作成時に自動的に付与されます。**
 
-  - **配置例:** `dotfiles/zsh/home/zshrc` （ドットなし）
-  - **リンク先:** `~/.zshrc` （ドットあり）
+  - **配置例:** `dotfiles/bash/home/bashrc` （ドットなし）
+  - **リンク先:** `~/.bashrc` （ドットあり）
 
 ### 3\. `bin/` ディレクトリ
 
 `~/.local/bin/` に配置されます（実行権限のあるスクリプト用）。
 
-  - **配置例:** `dotfiles/scripts/bin/my-tool`
-  - **リンク先:** `~/.local/bin/my-tool`
+  - **配置例:** `dotfiles/git-tools/bin/git-cb`
+  - **リンク先:** `~/.local/bin/git-cb`
 
 -----
 
-## 高度な設定 (.links)
+## 高度な設定 (topic.toml)
 
-上記のルールに当てはまらない場合、各トピックディレクトリに `.links` ファイルを作成することで、リンク先を明示的に指定できます。
+上記のルールに当てはまらない場合、各トピックディレクトリに `topic.toml` を作成することで、リンク先を明示的に指定できます。
 
 ### 書式
 
-```text
-<リポジトリ内の相対パス> <インストール先の絶対パス>
+```toml
+# プラットフォーム制限（省略すると全OS対応）
+# platforms = ["linux", "macos", "windows"]
+
+# Convention ルールの無効化（デフォルト: [[links]] があれば自動スキップ）
+# skip_conventions = true
+
+# カスタムリンク定義
+[[links]]
+source = "config"
+target = "~/.ssh/config"
 ```
 
-### `.links` の使用例
+### `topic.toml` の使用例
 
-**例1: ファイル単体を特定の名前に変更してリンク**
+**例1: 特定パスへのリンク（ssh/topic.toml）**
 
-```text
-# dotfiles/git/.links
-gitconfig ~/.gitconfig
-gitignore_global ~/.gitignore_global
+```toml
+[[links]]
+source = "config"
+target = "~/.ssh/config"
 ```
 
-**例2: ワイルドカード（`*`）を使用してフラットに展開**
-末尾に `/*` を付けると、ディレクトリそのものではなく、中のファイルを個別にリンクします。
+**例2: プラットフォーム制限**
 
-```text
-# dotfiles/zsh/.links
-completions/* ~/.zsh/completions/
+```toml
+platforms = ["linux"]
+
+[[links]]
+source = "config.conf"
+target = "~/.config/myapp/config.conf"
 ```
 
-**例3: ディレクトリ構造を丸ごと維持（デフォルト挙動と同じ）**
+**例3: カスタムリンクと Convention の併用**
 
-```text
-# dotfiles/nvim/.links
-config ~/.config/nvim
+```toml
+skip_conventions = false  # 明示的に false を指定すると [[links]] と Convention を併用
+
+[[links]]
+source = "extra.conf"
+target = "~/.config/extra.conf"
 ```
+
+> **Note:** `topic.toml` がないトピックは Convention ルールのみで動作します（設定不要）。
+
+## フックスクリプト
+
+各トピックに `install.sh`（Unix）/ `install.ps1`（Windows）を置くと、リンク作成後に自動実行されます。
+パッケージのインストールなど、シンボリックリンクだけでは対応できない処理に使います。
+
+```
+prompty/
+  install.sh      # Unix 用フック
+  install.ps1     # Windows 用フック
+```
+
+`--no-hooks` オプションでフック実行をスキップできます。
 
 ## 除外ファイル
 
 以下のファイル・ディレクトリはインストーラーによって無視されます。
 
   - `.git`, `.github`
-  - `.DS_Store`
-  - `install.sh`
-  - その他、スクリプト内で定義された一時ファイルなど
+  - `src/`, `target/`, `bin/` （Rust プロジェクト / ビルド関連）
+  - `install.sh`, `install.ps1` （ルートのブートストラップスクリプト）
+  - `README.md`
+  - `vim/`, `dev/` （レガシー / テンプレート用）
 
 ## License
 
 MIT
-
