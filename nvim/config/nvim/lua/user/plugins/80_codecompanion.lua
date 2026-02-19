@@ -159,7 +159,7 @@ return {
         map({"n", "v"}, "<leader>ai", "<cmd>CodeCompanion<cr>", { desc = "AI Inline Edit" })
 
         -- 3. Add (コンテキスト追加): 選択範囲をチャットに送る
-        map("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { desc = "Add selection to Chat" })
+        map("v", "ag", "<cmd>CodeCompanionChat Add<cr>", { desc = "Add selection to Chat" })
 
         -- 4. Action Pallete (プロンプト切り替えなどに便利）
         map("n", "<leader>ap", "<cmd>CodeCompanionActions<cr>", { desc = "AI Actions Palette" })

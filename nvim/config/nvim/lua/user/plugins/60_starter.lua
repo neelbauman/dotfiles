@@ -18,8 +18,8 @@ return {
             items = {
                 -- 1. AIチャットを開くカスタムアクション
                 {
-                    name = "AI Chat (Claude/GPT)", -- 表示名
-                    action = "GpChatNew vsplit",   -- 実行するコマンド (垂直分割で新規チャット)
+                    name = "AI Chat (Claude)", -- 表示名
+                    action = "CodeCompanionChat",   -- 実行するコマンド (垂直分割で新規チャット)
                     section = "Assistance",        -- セクション名
                 },
                 

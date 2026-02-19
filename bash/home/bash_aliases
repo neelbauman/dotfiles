@@ -10,3 +10,4 @@ alias mv='mv -i'
 alias rm='rm -i'
 alias nv="nvim $@"
 alias t="dstask"
+alias claude='env -u ANTHROPIC_API_KEY claude'
