@@ -9,7 +9,7 @@ pub fn success(msg: &str) {
 }
 
 pub fn skip(msg: &str) {
-    println!("  {} {}", "–".dimmed(), msg.dimmed().to_string());
+    println!("  {} {}", "–".dimmed(), msg.dimmed());
 }
 
 pub fn warn(msg: &str) {

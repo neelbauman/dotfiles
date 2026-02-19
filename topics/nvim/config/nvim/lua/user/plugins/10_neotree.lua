@@ -8,7 +8,10 @@ return {
     "nvim-tree/nvim-web-devicons",
     "MunifTanjim/nui.nvim",
   },
-  lazy = false,
+  -- lazy = false,
+  keys = {
+    { "<leader>e", "<cmd>Neotree toggle<CR>", desc = "Explorer: Toggle Neo-tree" },
+  },
   config = function()
     -- Nerd Font の有無を判定
     local use_nerd_font = vim.g.have_nerd_font or false
@@ -121,10 +124,5 @@ return {
       },
     })
 
-    -- キーマップ: <leader>e でツリーを開閉
-    vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", {
-      desc = "Explorer: Toggle Neo-tree",
-      silent = true,
-    })
   end,
 }

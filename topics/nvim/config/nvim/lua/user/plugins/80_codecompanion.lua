@@ -35,6 +35,13 @@ return {
         "ravitemer/codecompanion-history.nvim",
         "echasnovski/mini.diff",
     },
+    keys = {
+        { "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>", mode = { "n", "v" }, desc = "AI Chat Toggle" },
+        { "<leader>an", "<cmd>CodeCompanionChat<cr>", mode = { "n", "v" }, desc = "AI Chat New" },
+        { "<leader>ai", "<cmd>CodeCompanion<cr>", mode = { "n", "v" }, desc = "AI Inline Edit" },
+        { "ag", "<cmd>CodeCompanionChat Add<cr>", mode = "v", desc = "Add selection to Chat" },
+        { "<leader>ap", "<cmd>CodeCompanionActions<cr>", desc = "AI Actions Palette" },
+    },
     config = function()
         require("mini.diff").setup({
             view = {
@@ -147,21 +154,5 @@ return {
             },
         })
 
-        -- 【キーバインド】
-        local map = vim.keymap.set
-
-        -- 1. Chat (思考): 右側にチャットを開く
-        -- 使い方: ここで "#" を押すとファイルを選択してコンテキストに含められます
-        map({"n", "v"}, "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>", { desc = "AI Chat Toggle" })
-        map({"n", "v"}, "<leader>an", "<cmd>CodeCompanionChat<cr>", { desc = "AI Chat New" })
-
-        -- 2. Inline (実装): 選択範囲をその場で変更、または現在位置に挿入
-        map({"n", "v"}, "<leader>ai", "<cmd>CodeCompanion<cr>", { desc = "AI Inline Edit" })
-
-        -- 3. Add (コンテキスト追加): 選択範囲をチャットに送る
-        map("v", "ag", "<cmd>CodeCompanionChat Add<cr>", { desc = "Add selection to Chat" })
-
-        -- 4. Action Pallete (プロンプト切り替えなどに便利）
-        map("n", "<leader>ap", "<cmd>CodeCompanionActions<cr>", { desc = "AI Actions Palette" })
     end,
 }
