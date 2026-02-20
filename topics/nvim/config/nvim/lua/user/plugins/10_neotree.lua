@@ -8,7 +8,7 @@ return {
     "nvim-tree/nvim-web-devicons",
     "MunifTanjim/nui.nvim",
   },
-  -- lazy = false,
+  lazy = false,
   keys = {
     { "<leader>e", "<cmd>Neotree toggle<CR>", desc = "Explorer: Toggle Neo-tree" },
   },
