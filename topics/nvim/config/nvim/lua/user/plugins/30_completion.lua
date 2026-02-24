@@ -4,6 +4,7 @@ return {
   -- 補完エンジン
   {
     "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp", -- LSP
       "hrsh7th/cmp-buffer",   -- バッファ
