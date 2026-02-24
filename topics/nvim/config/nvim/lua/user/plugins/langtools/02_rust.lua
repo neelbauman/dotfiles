@@ -5,15 +5,14 @@ require("user.utils.lsp_manage").register_custom_config("rust_analyzer")
 return {
     {
         'mrcjkb/rustaceanvim',
-        version = '^5', -- 推奨バージョン
-        lazy = false,   -- ftpluginとして動作するため、falseでOK
-        config = function()
+        version = '^5', 
+        lazy = false,   
+        init = function() -- ★ ここを config から init に変更します
             local lsp_utils = require("user.utils.lsp_manage")
             vim.g.rustaceanvim = {
                 server = {
-                    -- 共通の on_attach を使いつつ、Rust固有のキーマップを追加
                     on_attach = function(client, bufnr)
-                        lsp_utils.on_attach(client, bufnr) -- 共通キーマップを適用
+                        lsp_utils.on_attach(client, bufnr) 
 
                         local map = function(mode, lhs, rhs, desc)
                             vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = "Rust: " .. desc })

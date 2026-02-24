@@ -1,4 +1,4 @@
--- nvim/config/nvim/lua/user/plugins/99_claudecode.lua
+-- nvim/config/nvim/lua/user/plugins/81_claudecode.lua
 
 return {
     {
@@ -33,7 +33,10 @@ return {
         opts = {
             track_selection = true, -- カーソル位置・選択範囲をリアルタイムで送信
             diff_opts = {
-                vertical_split = false, -- diff を縦分割で開く
+                vertical_split = true,
+                keep_terminal_focus = true,
+                open_in_new_tab = true,
+                auto_close_on_accept = true,
             },
         },
         config = function(_, opts)
