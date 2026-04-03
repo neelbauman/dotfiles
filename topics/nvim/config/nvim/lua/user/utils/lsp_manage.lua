@@ -1,21 +1,21 @@
--- nvim/config/nvim/lua/user/utils/lsp.lua
+-- nvim/config/nvim/lua/user/utils/lsp_manage.lua
 local M = {}
 
 M.skip_servers = {}
 
 --- インフラ側(20_lsp.lua)の自動セットアップを無効化するためにサーバーを登録します。
----
---- @param server_name string LSPサーバー名 (例: "pyright")
---- @usage
---- -- 【重要】必ずファイルのトップレベル（returnの前）で呼び出してください
---- require("user.utils.lsp").register_custom_config("pyright")
---- return { ... }
-
 function M.register_custom_config(server_name)
     M.skip_servers[server_name] = true
 end
 
-M.capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- 【変更点】 capabilities を関数で遅延評価するように変更し、循環参照を防止します
+function M.get_capabilities()
+    local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+    if status_ok then
+        return cmp_nvim_lsp.default_capabilities()
+    end
+    return vim.lsp.protocol.make_client_capabilities()
+end
 
 -- ここで診断表示の見た目（アイコンなど）も設定しておくと見やすくなります
 vim.diagnostic.config({
@@ -42,7 +42,6 @@ M.on_attach = function(client, bufnr)
     bufmap("n", "<leader>ca", vim.lsp.buf.code_action, "Code Action")
 
     -- 【追加】診断ジャンプ (]d / [d)
-    --  float = { ... } を渡すことで、ジャンプ後即座にウィンドウを開きます
     bufmap("n", "]d", function() 
         vim.diagnostic.goto_next({ float = { border = "rounded" } }) 
     end, "Next Diagnostic")
@@ -53,4 +52,3 @@ M.on_attach = function(client, bufnr)
 end
 
 return M
-
