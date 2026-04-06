@@ -25,7 +25,8 @@ return {
 
             local opts = {
                 on_attach = lsp_utils.on_attach,
-                capabilities = lsp_utils.capabilities,
+                -- 【変更点】 関数呼び出しに変更
+                capabilities = lsp_utils.get_capabilities(),
                 settings = {
                     -- 言語固有の設定 (例: analysis = { ... })
                 },
@@ -71,11 +72,10 @@ return {
             -- }
 
             -- 3. キーマップ (Rustの設定と同様、必要な場合のみ記述)
-            -- ※ F5, F10などの基本操作は 21_dap.lua にまとめるのが推奨ですが、
+            -- ※ F5, F10などの基本操作は 22_dap.lua にまとめるのが推奨ですが、
             --   言語固有の操作があればここに書きます。
             -- vim.keymap.set('n', '<leader>dt', function() dap.run_last() end, { desc = "Debug: Run Last" })
         end
     },
 }
 --]]
-
