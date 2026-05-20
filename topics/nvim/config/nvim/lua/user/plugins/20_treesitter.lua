@@ -17,7 +17,8 @@ return {
             configs.setup({
                 ensure_installed = { 
                     "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "yaml",
-                    "python", "javascript", "go", "rust", "typescript", "html", "css", "bash"
+                    "python", "javascript", "go", "rust", "typescript", "html", "css", "bash",
+                    "org"
                 },
                 highlight = {
                     enable = true, -- シンタックスハイライト有効化
